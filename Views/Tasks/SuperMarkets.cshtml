@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "SuperMarkets";
+    var superMarkets = ViewBag.SuperMarkets as IReadOnlyList<string>
+                       ?? Array.Empty<string>();
+}
+<h1>Our Supermarkets</h1>
+<h2>There are @superMarkets.Count markets:</h2>
+
+@foreach (var market in superMarkets)
+{
+    <p>@market</p>
+}

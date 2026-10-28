@@ -1,0 +1,21 @@
+@model Dictionary<string, int>
+
+@{
+    ViewData["Title"] = "ShoppingList";
+}
+
+<h1>Our shopping list</h1>
+
+<table class="table table-bordered shopping-list-table">
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Key</td>
+            <td>@item.Value</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@await Html.PartialAsync("TimeToBuy")
