@@ -1,0 +1,7 @@
+@using ViewTask.Services
+@inject ITimeService TimeService
+
+<section class="time-to-buy">
+    <h2>It's time to shopping!</h2>
+    <p>@TimeService.GetTimeForTomorrow().ToString("MM/dd/yyyy")</p>
+</section>

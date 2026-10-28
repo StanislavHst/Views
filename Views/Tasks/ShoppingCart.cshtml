@@ -1,0 +1,56 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "ShoppingCart";
+    var shippingDates = ViewBag.ShippingDates as IReadOnlyList<DateTime>
+                        ?? Array.Empty<DateTime>();
+    var superMarkets = ViewBag.SuperMarkets as SelectList;
+    var products = ViewBag.Products as MultiSelectList;
+}
+<h1>Your shopping cart</h1>
+
+@if (ViewBag.ErrorMessage is string errorMessage)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+@using (Html.BeginForm("ShoppingCart", "Tasks", FormMethod.Post, new { @class = "shopping-cart-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        @Html.Label("fullName", "Input your fullname:", new { @class = "form-label" })
+        @Html.TextBox("fullName", null, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-3">
+        @Html.Label("address", "Input your address:", new { @class = "form-label" })
+        @Html.TextBox("address", null, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-3">
+        @Html.DropDownList("supermarket", superMarkets, new { @class = "form-select" })
+    </div>
+
+    <fieldset class="mb-3">
+        <legend class="visually-hidden">Shipping date</legend>
+        @for (var index = 0; index < shippingDates.Count; index++)
+        {
+            var date = shippingDates[index];
+            <div class="form-check">
+                @Html.RadioButton(
+                    "shippingDate",
+                    date.ToString("O"),
+                    index == 0,
+                    new { @class = "form-check-input", id = $"shippingDate{index}" }
+                )
+                <label class="form-check-label" for="shippingDate@index">@date</label>
+            </div>
+        }
+    </fieldset>
+
+    <div class="mb-3">
+        @Html.ListBox("products", products, new { @class = "form-select product-list" })
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Send" />
+}
